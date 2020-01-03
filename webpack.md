@@ -71,10 +71,10 @@ npm install webpack webpack-cli --save-dev  // 安装本地项目模块
           { from: /^\/home/, to: '/home.html' }
         ]
       }
-  复制代码
+  
   ```
 
-  ![点击并拖拽以移动](data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==)
+  
 
   - **hot：**该配置项是指模块替换换功能，DevServer 默认行为是在发现源代码被更新后通过自动刷新整个页面来做到实时预览的，但是开启模块热替换功能后，它是通过在不刷新整个页面的情况下通过使用新模块替换旧模块来做到实时预览的。
   - **proxy :** 有时候我们使用webpack在本地启动服务器的时候，由于我们使用的访问的域名是 http://localhost:8081 这样的，但是我们服务端的接口是其他的，可以通过该配置来解决跨域的问题
@@ -93,7 +93,7 @@ npm install webpack webpack-cli --save-dev  // 安装本地项目模块
   }
   ```
 
-  ![点击并拖拽以移动](data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==)
+ 
 
   - **inline：**设置为true，当源文件改变时会自动刷新页面
   - **open：**该属性用于DevServer启动且第一次构建完成时，自动使用我们的系统默认浏览器去打开网页。

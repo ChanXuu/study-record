@@ -571,6 +571,292 @@ w.work() //work
      ```
 
      
+   
+5. 静态属性 静态方法
+
+   ```typescript
+   class per {
+       name:string
+       static age:number = 24  //静态属性
+       constructor(name:string){
+           this.name = name
+       }
+   
+       run(){//实例方法
+           console.log(`${this.name}在运动`)
+       }
+   
+       static print(){//静态方法,里面没法直接调用类里面的属性
+           console.log('这是ts静态方法' + `${this.age}`)
+       }
+   }
+   
+   //非静态方法不能直接用,要实例化
+   let p = new per('cx')
+   console.log(p.name)
+   p.run()
+   
+   //静态方法可以直接调用
+   per.print() 
+   console.log(per.age)
+   ```
+
+   
+
+6. 抽象类 继承多态
+
+   ```typescript
+   //多态:父类定义一个方法不去实现,让继承它的子类去实现,每个子类有不同的表现
+   //多态属于继承
+    class animal {
+       name:string
+       constructor(name:string){
+           this.name = name;
+       }
+       eat(){ //具体吃什么,不知道 ,让继承它的子类去实现,每一个子类的表现不一样
+           console.log('吃的方法')
+       }
+   }
+   
+   class dog extends animal {
+       constructor(name:string){
+           super(name)
+       }
+       eat():string{
+           return `${this.name}吃骨头`
+       }
+   }
+   
+   class cat extends animal {
+       constructor(name: string) {
+           super(name)
+       }
+       eat(): string {
+           return `${this.name}吃鱼`
+       }
+   }
+   ```
+
+7. 抽象方法
+
+   ```typescript
+   //ts中的抽象类:它是提供其他类继承的基类,不能直接被实例化
+   //用abstract关键字定义抽象类方法,抽象类中的抽象方法不包含具体实现并且必须在派生类中实现
+   //abstract 抽象方法只能放在抽象类里面
+   //抽象类用来定义标准的
+   //例子: 用来定义标准:animal 这个类要求它的子类必须包含eat方法
+   
+    abstract class animal {
+       name: string
+       constructor(name: string) {
+           this.name = name;
+       }
+       abstract eat():any;
+       run(){
+           console.log('其他方法可以不实现')
+       }
+   }
+   
+   //var a = new animal() //错误,无法创建抽象类的实例。
+   
+   class dog extends animal { 
+       //抽象类的子类必须实现抽象类里面的抽象方法
+       constructor(name: string) {
+           super(name)
+       }
+       eat(): string {
+           return `${this.name}吃骨头`
+       }
+   }
+   
+   var d = new dog('地豆')
+   console.log(d.eat()) //地豆吃骨头
+   
+   
+   ```
+
+
+
+##  TypeScript 接口
+
+```typescript
+/* 接口的作用:在面向对象的编程,接口是一种规范的定义,它定义了行为和动作的规范,在程序设计里面,接口起到了一种限制和规范的作用.接口定义了某一批类所需要遵循的规范,接口不关心这些类的内部状态数据,也不关心这些类里方法的实现细节,它只规定这批类里面必须提供某些方法,提供这些方法的类就可以满足实际需要.ts中的接口类似于java,同时还增加了更灵活的接口类型,包括属性.函数.可索引和类等
+
+定义标准
+ */
+```
+
+1. **属性类接口**
+
+   ```typescript
+   //对json的约束
+   //对批量方法传入参数进行约束
+   
+   interface FullName{
+       firstName:string; //注意分号结束
+       secondName:string;
+       age:number;
+   }
+   
+   function printt(name: FullName) {
+       //必须传入对象 firstName secondName
+       console.log(`${name.firstName}--${name.secondName}`)
+   } 
+   
+   function printtInfo(name: FullName) {
+       //必须传入对象 firstName secondName
+       console.log(`${name.firstName}--${name.secondName}--${name.age}`)
+   } 
+   
+   //print('111') //错误写法
+   
+   var obj = {//传入的参数必须包含firstName和secondName
+       firstName:'c',
+       secondName:'x',
+       age:20
+   }
+   
+   printt(obj) // c--x
+   printtInfo(obj) //c--x--20
+   
+   //接口:可选属性
+   interface FullName1{
+       firstName?:string; //注意分号结束
+       secondName?:string;
+       age:?number;
+   }
+   ```
+
+   
+
+2. **函数类型接口**
+
+   ```typescript
+   //函数类型接口 
+   //对方法传入的参数,以及返回值进行约束 批量约束
+   
+   //例子:加密的函数类型接口
+   interface encrypt {
+       (key:string,value:string):string;
+   }
+   
+   var md5: encrypt = function (key:string,value:string):string{
+       return key + value
+   }
+   
+   console.log(md5('cx','blw')) //cxblw
+   ```
+
+   
+
+3. **可索引接口**
+
+   ```typescript
+   
+   //数组.对象的约束  (不常用)
+   
+   
+   //可索引接口 数组的约束
+   interface userArr {
+       [index:number]:string
+   }
+   
+   //var arr:userArr = [123,456]  //错误写法
+   var arr:userArr = ['aaa','bbb'] //正确
+   
+   //可索引接口 对象的约束
+   interface userArr1 {
+       [index:string]:string
+   }
+   
+   var arr1: userArr1 = {name:'cx'}
+   ```
+
+   
+
+4. **类类型接口**
+
+   ```typescript
+   //类类型接口 ：对类的约束 和  抽象类有点相似
+   
+   interface animal{
+       name:string;
+       eat(str:string):void;
+   }
+   //implements 表示实现
+   class dog implements animal{
+       name:string
+       constructor(name:string){
+           this.name = name
+       }
+       eat(){
+           console.log(this.name +'吃骨头')
+       }
+   }
+   var d = new dog('狗')
+   d.eat() //狗吃骨头
+   ```
+
+   
+
+5. **接口扩展**
+
+   ```typescript
+   //接口可以继承接口
+   interface animal{
+       eat():void;
+   }
+   
+   //接口的继承
+   interface person extends animal{
+           word():void;
+   }
+   
+   class progammer {
+       name:string
+       constructor(name:string){
+           this.name = name
+       }
+       coding(code:string){
+           console.log(this.name +'写'+ code)
+       }
+   }
+   
+   //实现
+   /* class web implements person{
+       name:string
+       constructor(name:string){
+           this.name = name
+       }
+       eat(){
+           console.log(this.name+'喜欢吃')
+       }
+       word(){
+           console.log(this.name+'写代码')
+       }
+   } */
+   
+   //继承加实现
+   class web extends progammer implements person{
+       constructor(name:string){
+           super(name)
+       }
+       eat() {
+           console.log(this.name + '喜欢吃')
+       }
+       word() {
+           console.log(this.name + '写代码')
+       }
+   }
+   
+   
+   var w = new web('cx')
+   w.eat() //cx喜欢吃
+   w.word() //cx写代码
+   w.coding('js') //cx写js
+   ```
+
+     
 
 
 

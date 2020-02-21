@@ -6,6 +6,6 @@
 
 [typescript基础](https://github.com/cxblw/study-record/blob/master/typescript基础.md)
 
-[typescript基础](https://github.com/cxblw/study-record/blob/master/postcss-px-to-viewport的使用.md)
+[postcss-px-to-viewport的使用](https://github.com/cxblw/study-record/blob/master/postcss-px-to-viewport的使用.md)
 
 

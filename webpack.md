@@ -120,7 +120,7 @@ npm install webpack webpack-cli --save-dev  // 安装本地项目模块
 - **配置**
 
 
-- ##路径别名##
+## 路径别名
 ```
 //在vue.config.js中
 chainWebpack: config => {
